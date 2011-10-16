@@ -1,5 +1,6 @@
 package gtv.impl.cj;
 import gtv.data.Person;
+import gtv.Gui;
 
 /**
  * ...
@@ -89,15 +90,33 @@ class CJPerson extends Person
 		
 		if (retVal) {
 			if (familyBorn != null) {
-				if(familyBorn.isCanDraw(true)){
-					drawLineTo(familyBorn, settings.colorKids, false);
+				
+				if (familyBorn.isCanDraw(true)) {
+					
+					//	drawLineTo(familyBorn, settings.colorKids, false);
+					
+					Gui.drawKidRelation(
+						parent,
+						settings,
+						familyBorn,
+						this);
+					
+				
 					familyBorn.drawLines();
 				}
 			}
 			
 			for (i in 0...families.length) {
-				if(families[i].isCanDraw(true)){
-					drawLineTo(families[i], settings.colorSpouse, true);
+				if (families[i].isCanDraw(true)) {
+					
+					Gui.drawSpouseRelation(
+						parent,
+						settings,
+						families[i],
+						this);
+
+					//drawLineTo(families[i], settings.colorSpouse, true);
+
 					families[i].drawLines();
 				}
 			}

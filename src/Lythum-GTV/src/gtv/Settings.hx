@@ -1,40 +1,34 @@
 package gtv;
 import flash.geom.Point;
 import flash.text.TextFormat;
+import gtv.geom.Orientation;
 
 /**
  * ...
  * @author Arvydas Grigonis (C) www.lythum.lt
  */
 
- enum Orientation {
-	Vertical;
-	Horizontal;
-}
-
 class Settings 
 {
-	public var orientation:Orientation;
-	public var mainMargin:Point;
-	public var movieSize:Point;
-	public var cellSize:Point;
-	public var url:String;
-	public var fontSize:Int;
-	/**
-	 * This feature make bigger font when scene is zoomed out
-	 */
-	public var enlargeFontOnZoomOut:Bool;
+	public var orientation:Orientation;		// gen tree orientation
+	public var mainMargin:Point;			// scene margin
+	public var movieSize:Point;				// non-fullscreen size of flash app	
+	public var cellSize:Point;				// any 1 cell size
+	public var cellMargin:Point;			// cell margin
+	public var url:String;					// url
+	public var enlargeFontOnZoomOut:Bool;	// This feature make bigger font when scene is zoomed out
 	
-	// textFormat
-	public var textFormat:TextFormat;
+	// TextField
+	public var textFormat:TextFormat;		// Default text label format
+	public var fontSize:Int;				// font size for regular label
 	
 	// colors
-	public var colorKids:UInt;
-	public var colorSpouse:UInt;
-	public var colorMainBack:UInt;
+	public var colorKids:UInt;				// Kids lines color
+	public var colorSpouse:UInt;			// Spouses lines color
+	public var colorMainBack:UInt;			// Main background color
 
-	// debug flag
-	public var debug:Bool;
+	// debug
+	public var debug:Bool;					// true - debug info on
 	
 	// parameters
 	private var _params:Dynamic<String>;
@@ -56,8 +50,9 @@ class Settings
 		mainMargin = new Point(500, 500);
 		movieSize = new Point(800, 600);
 		cellSize = new Point(200, 100);
-		url = "tree.xml";
+		cellMargin = new Point(48, 128);
 		fontSize = 12;
+		url = "tree.xml";
 		enlargeFontOnZoomOut = true;
 		
 		// textformat

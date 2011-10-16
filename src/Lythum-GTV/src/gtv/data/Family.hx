@@ -16,7 +16,7 @@ class Family extends GenTreeItem
 	// vars
 	public var marriage:GenEvent;
 	public var parents:Array<Person>;
-	public var kids:Array<GenTreeItem>;
+	public var kids:Array<Person>;
 	
 	public var wife:Person;
 	public var husband:Person;
@@ -25,7 +25,7 @@ class Family extends GenTreeItem
 	{
 		super(settings);
 		parents = new Array<Person>();
-		kids = new Array<GenTreeItem>();
+		kids = new Array<Person>();
 		
 		this.addChild(label);
 

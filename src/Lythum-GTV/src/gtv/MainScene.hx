@@ -49,6 +49,8 @@ class MainScene  extends MovieClip
 		
 		// toogling fullscreen
 		scene.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		
+		buttonMode = true;
 	}
 	
 	public function draw() {

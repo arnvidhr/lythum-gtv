@@ -24,7 +24,7 @@ class Person extends GenTreeItem
 	public var personName:String;
 	
 	public var familyBorn:Family;
-	public var families:Array<GenTreeItem>;
+	public var families:Array<Family>;
 	
 	public function new(settings:Settings) 
 	{
@@ -37,7 +37,7 @@ class Person extends GenTreeItem
 
 		this.addChild(label);
 		
-		families = new Array<GenTreeItem>();
+		families = new Array<Family>();
 	}
 	
 	public function isFemale () {

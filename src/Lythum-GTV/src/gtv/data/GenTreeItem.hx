@@ -1,5 +1,6 @@
 package gtv.data;
 
+import flash.display.GradientType;
 import flash.display.MovieClip;
 import flash.display.Shape;
 import flash.display.Sprite;
@@ -10,6 +11,9 @@ import flash.filters.DropShadowFilter;
 import flash.geom.Point;
 import flash.text.TextField;
 import flash.text.TextFormat;
+import gtv.geom.Orientation;
+import gtv.geom.PointType;
+import gtv.Gui;
 
 import gtv.Settings;
 import gtv.data.processors.GenCollectProcessor;
@@ -25,7 +29,6 @@ import gtv.data.processors.GenCollectProcessor;
  */
 class GenTreeItem extends MovieClip
 {
-	static inline var frameSize:Float = 50;
 	static inline var vertFactor:Float = 2;
 	static inline var horFactor:Float = 1;
 	static inline var shadowFactor:Float = 2;
@@ -61,13 +64,14 @@ class GenTreeItem extends MovieClip
 		// if visible=true then object already drawn
 		this.visible = false;
 		
-		buttonMode = true;
 		
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		addEventListener(MouseEvent.MOUSE_OUT, onMouseUp);
 		
 		initLabels();
+
+		buttonMode = true;
 	}
 	
 	function initLabels():Void {
@@ -191,12 +195,12 @@ class GenTreeItem extends MovieClip
 		
 			// width x position + frame
 			if(settings.orientation == Orientation.Vertical){
-				this.x = settings.mainMargin.x + (getWidth() * pos.x + (pos.x * frameSize * horFactor));
-				this.y = settings.mainMargin.y +(getHeight() * pos.y + (pos.y * frameSize * vertFactor));
+				this.x = settings.mainMargin.x + ((getWidth() + settings.cellMargin.x) * pos.x);
+				this.y = settings.mainMargin.y + ((getHeight() + settings.cellMargin.y) * pos.y);
 			}
 			else {
-				this.x = settings.mainMargin.x + (getWidth() * pos.y + (pos.y * frameSize * horFactor));
-				this.y = settings.mainMargin.y + (getHeight() * pos.x + (pos.x * frameSize * vertFactor));
+				this.x = settings.mainMargin.x + ((getWidth() + settings.cellMargin.x) * pos.y);
+				this.y = settings.mainMargin.y + ((getHeight() + settings.cellMargin.y) * pos.x);
 			}
 			
 			if (!overrideDraw) {
@@ -212,10 +216,6 @@ class GenTreeItem extends MovieClip
 		}
 		
 		return false;
-	}
-	
-	public function setShadow (alpha:Float, angle:Float) {
-		this.filters = [new DropShadowFilter(alpha, angle)];
 	}
 	
 	/**
@@ -234,24 +234,72 @@ class GenTreeItem extends MovieClip
 		
 	}
 	
-	public function drawLineTo (to:MovieClip, color:UInt, isDown:Bool) :Void {
+	public function drawLineTo (to:GenTreeItem, color:UInt, isDown:Bool) :Void {
 		
 		var bottomOffset:Float = 20;
 		var topOffset:Float = 5;
 		
-		var sprite:Shape = new Shape();
-		sprite.graphics.lineStyle(1, color);
-		
-		sprite.graphics.moveTo(
-			this.x + (this.width / 2), 
-			this.y + (isDown? this.height - bottomOffset: topOffset));// (isDown? (y + height) - 20: y + 20));
-			
-		sprite.graphics.lineTo(
-			to.x + (to.width / 2),
-			to.y + (isDown ? topOffset: to.height -bottomOffset));
-			
-		sprite.graphics.endFill();
-		
-		parent.addChild(sprite);
+		Gui.drawLine(
+			parent,
+			// from
+			new Point(
+				this.x + (this.width / 2), 
+				this.y + (isDown? this.height - bottomOffset: topOffset)),// (isDown? (y + height) - 20: y + 20));
+			// to
+			new Point(
+				to.x + (to.width / 2),
+				to.y + (isDown ? topOffset: to.height -bottomOffset)),
+			color);
 	}
+
+	/**
+	 * function will apply shadow filter
+	 * @param	alpha 
+	 * @param	angle - shadow angle
+	 */
+	public function setShadow (alpha:Float, angle:Float) {
+		this.filters = [new DropShadowFilter(alpha, angle)];
+	}
+	
+	// Points
+	public function getPoint ( t:PointType ) {
+		
+		// calculated just X
+		var retVal:Point = new Point(
+			x + (width / 2), 
+			y + (height / 2));
+		
+		switch(t) {
+			
+			// vertical points
+			case PointType.TopCenter:
+				retVal.y = y;
+					
+			case PointType.TopMax:
+				retVal.y = y - (settings.cellMargin.y / 2);
+					
+			case PointType.BottomCenter:
+				retVal.y = y + height;
+			
+			case PointType.BottomMax:
+				retVal.y = y + height + (settings.cellMargin.y / 2);
+				
+			// horizontal points
+			case PointType.LeftCenter:
+				retVal.x = x;
+			
+			case PointType.LeftMax:
+				retVal.x = x - (settings.cellMargin.x / 2);
+			
+			case PointType.RightCenter:
+				retVal.x = x + width;
+			
+			case PointType.RightMax:
+				retVal.x = x + width + (settings.cellMargin.x / 2);
+		}
+		
+		// probably never will happen
+		return retVal;
+	}
+	
 }
