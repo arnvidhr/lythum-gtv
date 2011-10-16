@@ -26,7 +26,7 @@ class CJFamily extends Family
 		}
 	}
 	
-		override public function draw(overrideDraw:Bool):Bool 
+	override public function draw(overrideDraw:Bool):Bool 
 	{
 		if (super.draw(overrideDraw)) {
 			
@@ -71,21 +71,21 @@ class CJFamily extends Family
 		return false;
 	}
 	
-		override public function drawLines():Bool 
+	override public function drawLines():Bool 
 	{
 		var retVal:Bool = super.drawLines();
 		
 		if (retVal) {
 			for (i in 0...kids.length) {
 				if(kids[i].isCanDraw(true)){
-					drawLineTo(kids[i], Family.colorKids, true);
+					drawLineTo(kids[i], settings.colorKids, true);
 					kids[i].drawLines();
 				}
 			}
 		
 			for (i in 0...parents.length) {
 				if(parents[i].isCanDraw(true)){
-					drawLineTo(parents[i], Family.colorSpouse, false);
+					drawLineTo(parents[i], settings.colorSpouse, false);
 					parents[i].drawLines();
 				}
 			}

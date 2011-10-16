@@ -66,27 +66,5 @@ class GenCollectProcessor implements IProcessor
 				}
 			}
 		}
-/*
-		// perdestymas
-		for ( gen in 0...srcGenerations.length) {
-			while (srcGenerations[gen].length > 0 ) {
-				srcGenerations[gen][0].collect(getMaxX());
-			}
-		}
-*/		
-/*
-		// poziciju priskyrimas pagal perdestyta tvarka masyve
-		for ( gen in 0...dstGenerations.length) {
-			for ( item in 0...dstGenerations[gen].length) {
-				dstGenerations[gen][item].pos.x = item;
-			}
-		}
-*/
-/*		
-		// correct from bottom
-		for ( item in 0...dstGenerations[dstGenerations.length - 1].length) {
-			dstGenerations[dstGenerations.length - 1][item].correct(this);
-		}
-*/		
 	}
 }

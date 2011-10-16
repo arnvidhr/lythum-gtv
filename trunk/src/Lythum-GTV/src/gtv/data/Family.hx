@@ -1,10 +1,10 @@
 package gtv.data;
 import flash.events.MouseEvent;
 import flash.text.TextField;
-import gtv.data.processors.GenCollectProcessor;
-import gtv.Settings;
 
+import gtv.Settings;
 import gtv.data.GenTreeItem;
+import gtv.data.processors.GenCollectProcessor;
 
 /**
  * ...
@@ -13,10 +13,6 @@ import gtv.data.GenTreeItem;
 
 class Family extends GenTreeItem
 {
-	// const
-	public static inline var colorSpouse		= 0xFF3300;
-	public static inline var colorKids			= 0x000099;
-	
 	// vars
 	public var marriage:GenEvent;
 	public var parents:Array<Person>;
@@ -35,33 +31,19 @@ class Family extends GenTreeItem
 
 	}
 	
-	override public function onMouseDown(e:MouseEvent):Void 
+	override public function setHilight(h:Bool):Void 
 	{
-		super.onMouseDown(e);
-		
+		super.setHilight(h);
+
+		// parents
 		for (i in 0...parents.length) {
-			parents[i].hilight = true;
+			parents[i].hilight = h;
 			parents[i].redraw(false);
 		}
 		
+		// kids
 		for (i in 0...kids.length) {
-			kids[i].hilight = true;
-			kids[i].redraw(false);
-		}
-
-	}
-	
-	override public function onMouseUp(e:MouseEvent):Void 
-	{
-		super.onMouseUp(e);
-
-		for (i in 0...parents.length) {
-			parents[i].hilight = false;
-			parents[i].redraw(false);
-		}
-		
-		for (i in 0...kids.length) {
-			kids[i].hilight = false;
+			kids[i].hilight = h;
 			kids[i].redraw(false);
 		}
 	}
@@ -77,6 +59,10 @@ class Family extends GenTreeItem
 		return retVal;
 	}
 	
+	/**
+	 * Add parent
+	 * @param	p
+	 */
 	public function addParent(p:Person) {
 		if (p != null) {
 			//trace(id +" addParent " + p.name);
@@ -93,6 +79,10 @@ class Family extends GenTreeItem
 		}
 	}
 	
+	/**
+	 * Add kid
+	 * @param	p
+	 */
 	public function addKid (p:Person) {
 		if (p != null) {
 			//trace(id + " addKid " + p.name);
@@ -162,23 +152,5 @@ class Family extends GenTreeItem
 			}
 		}
 		return (index > familyIndex? index : familyIndex);
-	}
-	
-	override public function collect(gcp:GenCollectProcessor):Bool 
-	{
-		var retVal:Bool = super.collect(gcp);
-		
-		if(retVal){
-		
-			for (p in 0...parents.length) {
-				parents[p].collect(gcp);
-			}
-			
-			for (k in 0...kids.length) {
-				kids[k].collect(gcp);
-			}
-		}
-		
-		return retVal;
 	}
 }

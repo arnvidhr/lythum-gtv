@@ -1,4 +1,5 @@
 package gtv.data;
+
 import flash.display.MovieClip;
 import flash.display.Shape;
 import flash.display.Sprite;
@@ -9,14 +10,19 @@ import flash.filters.DropShadowFilter;
 import flash.geom.Point;
 import flash.text.TextField;
 import flash.text.TextFormat;
-import gtv.data.processors.GenCollectProcessor;
+
 import gtv.Settings;
+import gtv.data.processors.GenCollectProcessor;
 
 /**
  * ...
  * @author Arvydas Grigonis (C) www.lythum.lt
  */
 
+/**
+ * It's just base class for implementation
+ * Contains just core tree item stuff
+ */
 class GenTreeItem extends MovieClip
 {
 	static inline var frameSize:Float = 50;
@@ -79,12 +85,12 @@ class GenTreeItem extends MovieClip
 	}
 	
 	public function onMouseDown(e:MouseEvent) :Void{
-		this.hilight = true;
+		setHilight(true);
 		redraw(false);
 	}
 	
 	public function onMouseUp (e:MouseEvent):Void {
-		this.hilight = false;
+		setHilight(false);
 		redraw(false);
 	}
 	
@@ -104,6 +110,14 @@ class GenTreeItem extends MovieClip
 	
 	public function validate():Bool {
 		return false;
+	}
+	
+	/**
+	 * Sets hilight to related objects
+	 * @param	h
+	 */
+	public function setHilight(h:Bool):Void {
+		this.hilight = h;
 	}
 	
 	/**
@@ -129,7 +143,7 @@ class GenTreeItem extends MovieClip
 	 * calculate matrix pos.x
 	 * 
 	 * returns max position
-	 * if not processed will return-1
+	 * if already processed will return -1
 	 */
 	public function calcPositionX (posX:Float) : Float {
 
@@ -146,42 +160,6 @@ class GenTreeItem extends MovieClip
 			return -1;
 		}
 	}
-/*
-	public static function calcItemsX(array:Array<GenTreeItem>, startIndex:Float) :Float {
-		
-		var index:Float = startIndex;
-		
-		for (i in 0...array.length) {
-			if (!array[i].posXCalculated) {
-				index = array[i].calcPositionX(index+1) ;
-			}
-		}
-		
-		return index;
-	}
-	*/
-	public function collect (gcp:GenCollectProcessor): Bool {
-		
-		var gen:Int = cast(pos.y, Int);
-		
-		if (gcp.dstGenerations[gen] == null) {
-			gcp.dstGenerations[gen] = new Array<GenTreeItem>();
-		}
-		
-		if(checkItemExist(gcp.srcGenerations[gen], this)){
-		
-			// move to destination
-			gcp.dstGenerations[gen][gcp.dstGenerations[gen].length] = this;
-			
-			gcp.srcGenerations[gen].remove(this);
-
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
 
 	public static function checkItemExist(
 		array:Array<GenTreeItem>, 
@@ -201,6 +179,11 @@ class GenTreeItem extends MovieClip
 		draw(overrideDraw);
 	}
 	
+	/**
+	 * Main draw function
+	 * @param	overrideDraw - true - object can override drawing
+	 * @return	true - if some override drawing was done
+	 */
 	public function draw (overrideDraw:Bool) :Bool {
 		
 		if (isCanDraw(false)) {
@@ -235,6 +218,10 @@ class GenTreeItem extends MovieClip
 		this.filters = [new DropShadowFilter(alpha, angle)];
 	}
 	
+	/**
+	 * Draws lines
+	 * @return
+	 */
 	public function drawLines () :Bool {
 		
 		if (!linesDrawn) {
@@ -262,7 +249,9 @@ class GenTreeItem extends MovieClip
 		sprite.graphics.lineTo(
 			to.x + (to.width / 2),
 			to.y + (isDown ? topOffset: to.height -bottomOffset));
+			
 		sprite.graphics.endFill();
+		
 		parent.addChild(sprite);
 	}
 }
