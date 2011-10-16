@@ -55,25 +55,26 @@ class MainScene  extends MovieClip
 		
 		setShadow(5, 48);
 		
-		graphics.beginFill(0xffEEAA);
+		graphics.beginFill(settings.colorMainBack);
+		
 		graphics.drawRect(
 			0, 0, 
 			width + (settings.mainMargin.x * 2), 
 			height + (settings.mainMargin.y * 2));
-		graphics.endFill();
-		
+			
 		drawCopyright();
 				
 		graphics.endFill();
+		
 		// init normal size
-		normalSize = new Point(this.width, this.height);
-			
-		//cpLabel.textColor = 0xff0000;
-		
+		normalSize = new Point(
+			this.width, this.height);
+
+		// let's zoom out a bit
 		zoomOut( -8);
-		
+
+		// 
 		this.x = this.y = 0;
-		
 	}
 
 	/**
@@ -85,12 +86,16 @@ class MainScene  extends MovieClip
 		cpLabel.text = "(C) 2011 www.lythum.lt, Written By Arvydas Grigonis";
 		this.addChild(cpLabel);
 		cpLabel.autoSize = TextFieldAutoSize.LEFT;
-		cpLabel.x = x - settings.mainMargin.x + 10;
-		cpLabel.y = y - settings.mainMargin.y + 10;
+		cpLabel.x = 10;
+		cpLabel.y = 10;
 		cpLabel.filters = [ new  GlowFilter(0xccbbaa, 1.0, 3, 3, 3, 3, false, false), 
 							new DropShadowFilter(5, 25)];
 	}
 
+	function processDelta(delta:Float) {
+		return delta * zoomFactor;
+	}
+	
 	public function zoomIn (delta:Float) {
 		
 		zoom += processDelta(delta);
@@ -110,37 +115,37 @@ class MainScene  extends MovieClip
 	}
 	
 	function setScaling () {
+		
 		this.scaleX = this.scaleY = zoom;
 		
-		if (width < normalSize.x) {
-			settings.textFormat.size = settings.fontSize * (normalSize.x / width);
-		}
-		else {
-			settings.textFormat.size = settings.fontSize;
-		}
+		if(settings.enlargeFontOnZoomOut){
 		
-		for (i in 0...this.numChildren) {
-			
-			if(Std.is(this.getChildAt(i), GenTreeItem)){
-				var item:GenTreeItem = cast(this.getChildAt(i), GenTreeItem);
-				
-				item.label.defaultTextFormat = settings.textFormat;
-				item.label.setTextFormat(settings.textFormat);
+			// fix font on zoomout
+			if (width < normalSize.x) {
+				settings.textFormat.size = settings.fontSize * (normalSize.x / width);
 			}
+			else {
+				settings.textFormat.size = settings.fontSize;
+			}
+			
+			// reset fonts sizes on all scene childs
+			for (i in 0...this.numChildren) {
+				
+				if(Std.is(this.getChildAt(i), GenTreeItem)){
+					var item:GenTreeItem = cast(this.getChildAt(i), GenTreeItem);
+					
+					item.label.defaultTextFormat = settings.textFormat;
+					item.label.setTextFormat(settings.textFormat);
+				}
+			}
+			
+			//trace(settings.textFormat.size);
 		}
-		
-		//trace(settings.textFormat.size);
-	}
-	
-	function processDelta(delta:Float) {
-		return delta * zoomFactor;
 	}
 	
 	public function setShadow (alpha:Float, angle:Float) {
 		this.filters = [new DropShadowFilter(alpha, angle)];
 	}
-
-
 	
 	/**
 	 * 
@@ -166,11 +171,11 @@ class MainScene  extends MovieClip
 		
 		// fixing center
 		var endMouse:Point = new Point(mouseX, mouseY);
-		var endSize:Point = new Point(this.width, this.height);
+		var endSize:Point = new Point(width, height);
 		
 		// http://stackoverflow.com/questions/7172586/set-zoom-on-mouse-click-target-to-center-of-stage
-		this.x = scene.mouseX - (startMouse.x * this.scaleX);
-		this.y = scene.mouseY - (startMouse.y * this.scaleY);
+		this.x = scene.mouseX - (startMouse.x * scaleX);
+		this.y = scene.mouseY - (startMouse.y * scaleY);
 		
 		//trace("scene: " + this.scene.mouseX + " x " + this.scene.mouseY + ", local: " + this.mouseX + " x " + this.mouseY);
     }

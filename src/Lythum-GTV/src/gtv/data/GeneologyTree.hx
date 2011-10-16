@@ -108,6 +108,7 @@ class GeneologyTree
 	function calcPosX () {
 		
 		var genCollector:GenCollectProcessor = new GenCollectProcessor();
+		
 		// collect items by generation
 		processAll(genCollector);
 		
