@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <individuals>
+    <indi>
+      <id>i1</id>
+      <name>Jonas Jonaitis</name>
+      <gender>M</gender>
+      <birt>
+        <date>1970-09-21</date>
+        <place>Vilnius</place>
+      </birt>
+      <deat>
+        <date>2010-09-21</date>
+        <place>Vilnius</place>
+      </deat>
+    </indi>
+    <indi>
+      <id>i2</id>
+      <name>Janė Petraitytė</name>
+      <gender>F</gender>
+      <birt>
+        <date>1970-09-21</date>
+        <place>Vilnius</place>
+      </birt>
+      <deat>
+        <date>2010-09-21</date>
+        <place>Vilnius</place>
+      </deat>
+    </indi>
+    <indi>
+      <id>i3</id>
+      <name>Arvydas Jonaitis</name>
+      <gender>M</gender>
+      <birt>
+        <date>1970-09-21</date>
+        <place>Vilnius</place>
+      </birt>
+    </indi>
+    <indi>
+      <id>i4</id>
+      <name>Aistė Jonaitytė</name>
+      <gender>F</gender>
+      <birt>
+        <date>1970-09-21</date>
+        <place>Vilnius</place>
+      </birt>
+      <deat>
+        <date>2010-09-21</date>
+        <place>Vilnius</place>
+      </deat>
+    </indi>
+    <indi>
+      <id>i5</id>
+      <name>Kazys Jonaitis</name>
+      <gender>M</gender>
+      <birt>
+        <date>1970-09-21</date>
+        <place>Vilnius</place>
+      </birt>
+    </indi>
+  </individuals>
+  <families>
+    <fam>
+      <id>f1</id>
+      <husb>i1</husb>
+      <wife>i2</wife>
+      <marr>
+        <date>1995-09-21</date>
+        <place>Vilnius</place>
+      </marr>
+      <childs>
+        <chil>i3</chil>
+        <chil>i4</chil>
+        <chil>i5</chil>
+        <chil>i6</chil>
+        <chil>i7</chil>
+      </childs>
+    </fam>
+  </families>
+</data>
