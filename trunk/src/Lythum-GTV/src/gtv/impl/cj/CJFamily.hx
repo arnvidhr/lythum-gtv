@@ -1,6 +1,7 @@
 package gtv.impl.cj;
 import flash.text.TextField;
 import gtv.data.Family;
+import gtv.Gui;
 import gtv.Settings;
 
 /**
@@ -77,15 +78,30 @@ class CJFamily extends Family
 		
 		if (retVal) {
 			for (i in 0...kids.length) {
-				if(kids[i].isCanDraw(true)){
-					drawLineTo(kids[i], settings.colorKids, true);
+				if (kids[i].isCanDraw(true)) {
+					
+					Gui.drawKidRelation(
+						parent,
+						settings,
+						this,
+						kids[i]);
+					
+					//drawLineTo(kids[i], settings.colorKids, true);
 					kids[i].drawLines();
 				}
 			}
 		
 			for (i in 0...parents.length) {
-				if(parents[i].isCanDraw(true)){
-					drawLineTo(parents[i], settings.colorSpouse, false);
+				if (parents[i].isCanDraw(true)) {
+					
+					Gui.drawSpouseRelation(
+						parent,
+						settings,
+						this,
+						parents[i]);
+						
+						
+					//drawLineTo(parents[i], settings.colorSpouse, false);
 					parents[i].drawLines();
 				}
 			}
